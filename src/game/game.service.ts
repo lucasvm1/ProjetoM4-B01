@@ -12,7 +12,7 @@ export class GameService {
   }
 
   create(createGameDto: CreateGameDto): Game {
-    const game: Game = {id: 'id_aleatorio', ...createGameDto};
+    const game: Game = {id: 'random_id', ...createGameDto};
     this.games.push(game);
     return game;
   }

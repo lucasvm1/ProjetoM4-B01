@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateGameDto {
   @IsString()
-  @IsEmpty()
+  @IsNotEmpty()
   @ApiProperty({
-    description: 'Nome do jogo',
+    description: 'Game name',
     example: 'Mario Kart 8 Deluxe',
   })
   name: string;

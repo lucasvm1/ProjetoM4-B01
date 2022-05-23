@@ -4,16 +4,18 @@ import { CreateGameDto } from './dto/create-game.dto';
 import { Game } from './entities/game.entity';
 import { ApiTags } from '@nestjs/swagger';
 
-@Controller('games')
-export class GamesController {
+@Controller('game')
+export class GameController {
   constructor(private gameService: GameService) {}
 
+  @ApiTags('Game')
   @Get()
   findAll(): Game[] {
     return this.gameService.findAll();
   }
+  @ApiTags('Game')
   @Post()
-  create(@Body() CreateGameDto: CreateGameDto): Game {
-    return this.gameService.create(CreateGameDto);
+  create(@Body() createGameDto: CreateGameDto): Game {
+    return this.gameService.create(createGameDto);
   }
 }
