@@ -8,5 +8,5 @@ export class CreateGenreDto{
     description: "Game genre",
     example: "Casual"
   })
-  genre: string;
+  name: string;
 }
