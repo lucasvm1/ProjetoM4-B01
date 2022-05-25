@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { Profile } from './entities/profile.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -51,8 +51,16 @@ export class ProfileService {
     });
   }
 
-  handleError(error: Error) {
-    console.log(error);
-    return undefined;
+  handleError(error: Error): undefined {
+    const errorLines = error.message?.split('\n');
+    const lastErrorLine = errorLines[errorLines.length - 1]?.trim();
+
+    if (lastErrorLine) {
+      console.error(error);
+    }
+
+    throw new UnprocessableEntityException(
+      lastErrorLine || 'Algum erro ocorreu!',
+    );
   }
 }
