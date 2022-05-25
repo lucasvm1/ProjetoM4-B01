@@ -25,6 +25,11 @@ export class CreateUserDto {
     example: 'Abcd@1234',
   })
   password: string;
+  @ApiProperty({
+    description: 'Confirm Password',
+    example: 'Abcd@1234',
+  })
+  confirmPassword: string;
   @IsUrl()
   @ApiProperty({
     description: 'User image',

@@ -1,1 +1,4 @@
-export class Profile {}
+export class Profile {
+  id?: string;
+  name: string;
+}
