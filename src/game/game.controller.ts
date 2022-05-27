@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
 import { GameService } from './game.service';
 import { CreateGameDto } from './dto/create-game.dto';
-import { Game } from './entities/game.entity';
+import { Game } from "./entities/game.entity";
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { UpdateGameDto } from './dto/update.game.dto';
 

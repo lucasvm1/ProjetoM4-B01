@@ -6,7 +6,6 @@ import { UpdateGameDto } from './dto/update.game.dto';
 
 @Injectable()
 export class GameService {
-  games: Game[] = [];
 
   constructor(private readonly prisma: PrismaService) {}
 
