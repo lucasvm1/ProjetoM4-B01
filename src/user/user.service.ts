@@ -20,6 +20,9 @@ export class UserService {
     image: true,
     createdAt: true,
     updatedAt: true,
+    email: true,
+    cpf: true,
+    isAdmin: true,
   };
 
   constructor(private readonly prisma: PrismaService) {}
