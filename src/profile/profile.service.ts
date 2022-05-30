@@ -60,7 +60,7 @@ export class ProfileService {
     }
 
     throw new UnprocessableEntityException(
-      lastErrorLine || 'Algum erro ocorreu!',
+      lastErrorLine || 'There was an error!',
     );
   }
 }

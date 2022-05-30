@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnprocessableEntityException} from '@nestjs/common';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { Genre } from './entities/genre.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -50,8 +50,16 @@ export class GenreService {
     });
   }
 
-  handleError(error: Error) {
-    console.log(error);
-    return undefined;
+  handleError(error: Error): undefined {
+    const errorLines = error.message?.split('\n');
+    const lastErrorLine = errorLines[errorLines.length - 1]?.trim();
+
+    if (lastErrorLine) {
+      console.error(error);
+    }
+
+    throw new UnprocessableEntityException(
+      lastErrorLine || 'There was an error!',
+    );
   }
 }
