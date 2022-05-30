@@ -3,6 +3,7 @@ import { CreateGenreDto } from './dto/create-genre.dto';
 import { Genre } from './entities/genre.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateGenreDto } from './dto/update-genre.dto';
+import { handleError } from 'src/utils/handle-error.util';
 
 @Injectable()
 export class GenreService {
@@ -30,7 +31,7 @@ export class GenreService {
       .create({
         data: genre,
       })
-      .catch(this.handleError);
+      .catch(handleError);
   }
 
   async update(id: string, dto: UpdateGenreDto): Promise<Genre> {
@@ -48,18 +49,5 @@ export class GenreService {
     await this.prisma.genre.delete({
       where: { id },
     });
-  }
-
-  handleError(error: Error): undefined {
-    const errorLines = error.message?.split('\n');
-    const lastErrorLine = errorLines[errorLines.length - 1]?.trim();
-
-    if (lastErrorLine) {
-      console.error(error);
-    }
-
-    throw new UnprocessableEntityException(
-      lastErrorLine || 'There was an error!',
-    );
   }
 }

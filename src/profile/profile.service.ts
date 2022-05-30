@@ -3,6 +3,7 @@ import { CreateProfileDto } from './dto/create-profile.dto';
 import { Profile } from './entities/profile.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { handleError } from 'src/utils/handle-error.util';
 
 
 
@@ -32,6 +33,7 @@ export class ProfileService {
     .create({
       data: profile,
     })
+    .catch(handleError);
   }
 
   async update(id: string, dto: UpdateProfileDto): Promise<Profile> {
@@ -49,18 +51,5 @@ export class ProfileService {
     await this.prisma.profile.delete({
       where: { id },
     });
-  }
-
-  handleError(error: Error): undefined {
-    const errorLines = error.message?.split('\n');
-    const lastErrorLine = errorLines[errorLines.length - 1]?.trim();
-
-    if (lastErrorLine) {
-      console.error(error);
-    }
-
-    throw new UnprocessableEntityException(
-      lastErrorLine || 'There was an error!',
-    );
   }
 }

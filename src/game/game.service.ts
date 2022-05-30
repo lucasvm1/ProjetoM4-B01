@@ -3,6 +3,7 @@ import { CreateGameDto } from './dto/create-game.dto';
 import { Game } from './entities/game.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateGameDto } from './dto/update.game.dto';
+import { handleError } from 'src/utils/handle-error.util';
 
 @Injectable()
 export class GameService {
@@ -29,7 +30,7 @@ export class GameService {
       .create({
         data: game,
       })
-      .catch(this.handleError);
+      .catch(handleError);
   }
 
   async update(id: string, dto: UpdateGameDto): Promise<Game> {
@@ -47,18 +48,5 @@ export class GameService {
     await this.prisma.game.delete({
       where: { id },
     });
-  }
-
-  handleError(error: Error): undefined {
-    const errorLines = error.message?.split('\n');
-    const lastErrorLine = errorLines[errorLines.length - 1]?.trim();
-
-    if (lastErrorLine) {
-      console.error(error);
-    }
-
-    throw new UnprocessableEntityException(
-      lastErrorLine || 'There was an error!',
-    );
   }
 }
