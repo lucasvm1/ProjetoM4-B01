@@ -34,11 +34,12 @@ export class UserService {
   }
 
   async findOne(id: string): Promise<User> {
-    const record = await this.prisma.user.findUnique({
-      where: { id },
-      select: this.userSelect,
-    })
-    .catch(handleError);
+    const record = await this.prisma.user
+      .findUnique({
+        where: { id },
+        select: this.userSelect,
+      })
+      .catch(handleError);
 
     if (!record) {
       throw new NotFoundException(`The ID:${id} cannot be found`);
@@ -58,11 +59,12 @@ export class UserService {
       ...createUserDto,
       password: await bcrypt.hash(createUserDto.password, 10),
     };
-    return this.prisma.user.create({
-      data: user,
-      select: this.userSelect,
-    })
-    .catch(handleError);;
+    return this.prisma.user
+      .create({
+        data: user,
+        select: this.userSelect,
+      })
+      .catch(handleError);
   }
 
   async update(id: string, dto: UpdateUserDto): Promise<User> {
@@ -78,8 +80,8 @@ export class UserService {
 
     const user: Partial<User> = { ...dto };
 
-    if(user.password){
-      user.password = await bcrypt.hash(user.password, 10)
+    if (user.password) {
+      user.password = await bcrypt.hash(user.password, 10);
     }
 
     return this.prisma.user.update({
@@ -95,6 +97,4 @@ export class UserService {
       where: { id },
     });
   }
-
-
 }

@@ -9,8 +9,6 @@ import { handleError } from 'src/utils/handle-error.util';
 
 @Injectable()
 export class ProfileService {
-  profiles: Profile[] = [];
-
   constructor(private readonly prisma: PrismaService) {}
 
   findAll(): Promise<Profile[]> {
