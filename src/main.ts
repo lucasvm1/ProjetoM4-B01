@@ -2,23 +2,24 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { doc } from 'prettier';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
+  });
 
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
     .setTitle('Nintendo Store')
     .setDescription('API for Nintendo Store')
-    .setVersion('1.0')
+    .setVersion('1.0.0')
     .addTag('Games')
     .addTag('Genre')
     .addTag('Status')
     .addTag('User')
     .addTag('Profile')
-    .addTag('auth')
+    .addTag('Auth')
     .addBearerAuth()
     .build();
 
