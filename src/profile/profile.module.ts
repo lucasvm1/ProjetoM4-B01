@@ -4,11 +4,9 @@ import { ProfileController } from './profile.controller';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { PassportModule } from '@nestjs/passport';
 
-
-
 @Module({
-  imports: [PrismaModule, PassportModule.register({defaultStrategy: 'jwt'})],
+  imports: [PrismaModule, PassportModule.register({ defaultStrategy: 'jwt' })],
   controllers: [ProfileController],
-  providers: [ProfileService]
+  providers: [ProfileService],
 })
 export class ProfileModule {}

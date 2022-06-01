@@ -1,15 +1,47 @@
-import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { Profile } from './entities/profile.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { handleError } from 'src/utils/handle-error.util';
-
-
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ProfileService {
   constructor(private readonly prisma: PrismaService) {}
+
+  create(createProfileDto: CreateProfileDto) {
+    const data: Prisma.ProfileCreateInput = {
+      name: createProfileDto.name,
+      image: createProfileDto.image,
+      user: {
+        connect: {
+          id: createProfileDto.userId,
+        },
+      },
+    };
+
+    return this.prisma.profile
+      .create({
+        data,
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          user: {
+            select: {
+              name: true,
+              nickname: true,
+            },
+          },
+        },
+      })
+      .catch(handleError);
+  }
 
   findAll(): Promise<Profile[]> {
     return this.prisma.profile.findMany();
@@ -25,23 +57,20 @@ export class ProfileService {
     return record;
   }
 
-  create(createProfileDto: CreateProfileDto): Promise<Profile> {
-    const profile: Profile = { ...createProfileDto };
-    return this.prisma.profile
-    .create({
-      data: profile,
-    })
-    .catch(handleError);
-  }
-
-  async update(id: string, dto: UpdateProfileDto): Promise<Profile> {
-    await this.findOne(id);
-
-    const profile: Partial<Profile> = { ...dto };
+  update(id: string, updateProfileDto: UpdateProfileDto) {
+    const data: Prisma.ProfileUpdateInput = {
+      name: updateProfileDto.name,
+      image: updateProfileDto.image,
+      user: {
+        connect: {
+          id: updateProfileDto.userId
+        }
+      }
+    }
     return this.prisma.profile.update({
-      where: { id },
-      data: profile,
-    });
+      where: {id},
+      data,
+    })
   }
 
   async remove(id: string) {
