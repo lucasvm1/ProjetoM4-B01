@@ -6,7 +6,7 @@ export class CreateGenreDto{
   @IsString()
   @ApiProperty({
     description: "Game genre",
-    example: "Casual"
+    example: "Racing"
   })
   name: string;
 }
