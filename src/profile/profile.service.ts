@@ -23,6 +23,11 @@ export class ProfileService {
           id: createProfileDto.userId,
         },
       },
+      game: {
+        connect: {
+          id: createProfileDto.gameId
+        }
+      }
     };
 
     return this.prisma.profile
@@ -38,6 +43,7 @@ export class ProfileService {
               nickname: true,
             },
           },
+          game: true
         },
       })
       .catch(handleError);
@@ -64,6 +70,11 @@ export class ProfileService {
       user: {
         connect: {
           id: updateProfileDto.userId
+        }
+      },
+      game: {
+        connect: {
+          id: updateProfileDto.gameId
         }
       }
     }
